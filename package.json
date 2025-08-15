@@ -1,0 +1,8 @@
+{
+  "name": "sistema-restaurante",
+  "private": true,
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build && cd ../backend && npm install && npm run build",
+    "start": "cd backend && npm start"
+  }
+}

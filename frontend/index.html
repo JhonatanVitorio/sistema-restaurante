@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Garçom - Restaurante</title>
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+        .dish-entry {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 id="garcom-title">Painel do Garçom</h1>
+        <form id="order-form">
+            <label for="table">Mesa:</label>
+            <input type="text" id="table" placeholder="Ex: 5" required />
+
+            <label>Pratos:</label>
+            <div id="dish-list"></div>
+
+            <label>Bebidas:</label>
+            <div id="drink-list"></div>
+
+            <button type="submit">Enviar Pedido</button>
+        </form>
+
+        <div id="message" class="message"></div>
+    </div>
+
+    <script type="module" src="./js/sala.js"></script>
+</body>
+
+</html>

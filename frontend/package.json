@@ -1,0 +1,22 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "npx serve ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/chart.js": "^4.0.1",
+    "@types/moment": "^2.11.29",
+    "moment": "^2.30.1",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "chart.js": "^4.5.0"
+  }
+}

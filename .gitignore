@@ -1,0 +1,21 @@
+# geral
+.DS_Store
+.env
+*.env
+
+# node
+node_modules
+npm-debug.log*
+yarn.lock
+dist/
+pnpm-lock.yaml
+
+# build
+dist
+build
+.vscode
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

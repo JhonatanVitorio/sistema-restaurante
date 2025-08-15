@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Relatório de Vendas</title>
+    <link rel="stylesheet" href="../style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Layout global */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 2.5rem 1rem;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e9ecef;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.2rem;
+            color: #2c3e50;
+            font-weight: 700;
+        }
+
+        /* Cards de resumo */
+        .summary {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: #e8f5e9;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .summary>div {
+            min-width: 160px;
+            background: #fff;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .summary>div:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+        }
+
+        .summary strong {
+            display: block;
+            margin-bottom: 0.4rem;
+            color: #555;
+            font-weight: 600;
+        }
+
+        #faturamentoTotal,
+        #pratosVendidos,
+        #somaPratos,
+        #bebidasVendidas,
+        #somaBebidas {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #28a745;
+        }
+
+        /* Filtros */
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .filters label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.4rem;
+            color: #444;
+        }
+
+        .filters select,
+        .filters input[type="date"] {
+            padding: 0.6rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            min-width: 140px;
+            background: #fff;
+            font-size: 0.95rem;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .filters select:focus,
+        .filters input[type="date"]:focus {
+            border-color: #007bff;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08), 0 0 0 3px rgba(0, 123, 255, 0.15);
+            outline: none;
+        }
+
+        #applyFilters {
+            padding: 0.7rem 1.4rem;
+            border: none;
+            background: #28a745;
+            color: white;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+            box-shadow: 0 4px 10px rgba(40, 167, 69, 0.2);
+        }
+
+        #applyFilters:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        #applyFilters:active {
+            transform: translateY(0);
+        }
+
+        /* Seções de gráfico */
+        .chart-section {
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e9ecef;
+        }
+
+        .chart-section h2 {
+            text-align: center;
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: #34495e;
+            font-weight: 600;
+        }
+
+        /* Wrapper para controlar altura do canvas */
+        .chart-wrapper {
+            position: relative;
+            max-width: 850px;
+            margin: 0 auto;
+            /* Altura padrão controlada aqui */
+            height: 360px;
+        }
+
+        /* Canvas ocupa o wrapper */
+        .chart-wrapper canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        /* Responsividade */
+        @media (max-width: 992px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .chart-wrapper {
+                height: 320px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1.5rem 0.75rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .summary {
+                gap: 0.75rem;
+            }
+
+            .chart-section {
+                padding: 1rem;
+            }
+
+            .chart-section h2 {
+                font-size: 1.3rem;
+            }
+
+            .chart-wrapper {
+                height: 280px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .chart-wrapper {
+                height: 240px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Relatório de Vendas</h1>
+
+        <div class="summary">
+            <div><strong>Faturamento Total:</strong>
+                <div id="faturamentoTotal">R$ 0,00</div>
+            </div>
+            <div><strong>Vendas - Pratos:</strong>
+                <div id="pratosVendidos">0</div>
+            </div>
+            <div><strong>Soma Pratos:</strong>
+                <div id="somaPratos">R$ 0,00</div>
+            </div>
+            <div><strong>Vendas - Bebidas:</strong>
+                <div id="bebidasVendidas">0</div>
+            </div>
+            <div><strong>Soma Bebidas:</strong>
+                <div id="somaBebidas">R$ 0,00</div>
+            </div>
+        </div>
+
+        <div class="filters">
+            <div>
+                <label for="month">Mês:</label>
+                <select id="month">
+                    <option value="">Todos</option>
+                    <option value="1">Janeiro</option>
+                    <option value="2">Fevereiro</option>
+                    <option value="3">Março</option>
+                    <option value="4">Abril</option>
+                    <option value="5">Maio</option>
+                    <option value="6">Junho</option>
+                    <option value="7">Julho</option>
+                    <option value="8">Agosto</option>
+                    <option value="9">Setembro</option>
+                    <option value="10">Outubro</option>
+                    <option value="11">Novembro</option>
+                    <option value="12">Dezembro</option>
+                </select>
+            </div>
+            <div>
+                <label for="type">Tipo:</label>
+                <select id="type">
+                    <option value="">Todos</option>
+                    <option value="prato">Pratos</option>
+                    <option value="drink">Bebidas</option>
+                </select>
+            </div>
+            <div>
+                <label for="startDate">Data Inicial:</label>
+                <input type="date" id="startDate" />
+            </div>
+            <div>
+                <label for="endDate">Data Final:</label>
+                <input type="date" id="endDate" />
+            </div>
+            <button id="applyFilters">Aplicar Filtros</button>
+        </div>
+
+        <div class="chart-section" id="chart-pratos">
+            <h2>Pratos Mais Vendidos</h2>
+            <div class="chart-wrapper"><canvas id="pratosChart"></canvas></div>
+        </div>
+
+        <div class="chart-section" id="chart-bebidas">
+            <h2>Bebidas Mais Vendidas</h2>
+            <div class="chart-wrapper"><canvas id="bebidasChart"></canvas></div>
+        </div>
+    </div>
+
+    <script type="module" src="./js/relatorio.js"></script>
+</body>
+
+</html>
