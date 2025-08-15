@@ -27,6 +27,6 @@ app.use((req, res) => {
     res.status(404).json({ error: "Rota não encontrada", path: req.originalUrl });
 });
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
     console.log(`🚀 Server running at http://localhost:${PORT} or ${PORT}`);
 });
