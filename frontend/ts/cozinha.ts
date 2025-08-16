@@ -1,6 +1,6 @@
 export { };
 
-const API = "http://localhost:3000/api/orders";
+const API = "/api/orders";
 
 type Order = {
     id: number;
