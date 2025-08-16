@@ -25,10 +25,7 @@ app.use("/api/*", (_req, res) => {
     res.status(404).json({ error: "Rota de API não encontrada" });
 });
 
-// fallback para SPA/index.html (depois de tudo)
-app.get("*", (_req, res) => {
-    res.sendFile(path.join(frontendRoot, "index.html"));
-});
+
 
 app.listen(PORT, () => {
     console.log(`🚀 Server on ${PORT}`);
