@@ -336,6 +336,16 @@ button:disabled {
     cursor: not-allowed;
 }
 
+.badge-tipo {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 2px 6px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    background: #eef2ff;
+}
+
 /* === RESPONSIVO === */
 @media (max-width: 768px) {
     .container {

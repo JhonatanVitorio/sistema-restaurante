@@ -1,20 +1,20 @@
 const API = "/api/orders";
 const lista = document.getElementById('cozinha-pedidos');
+function fmtTipo(t) {
+    // padrão PF; deixa bonitinho em maiúsculas
+    return (t !== null && t !== void 0 ? t : "pf").toUpperCase();
+}
 async function carregarCozinha() {
     try {
         const pedidos = await fetch(API).then(res => res.json());
         lista.innerHTML = "";
-        // 1. Filtrar apenas pedidos pendentes
         const pedidosPendentes = pedidos.filter(p => p.status === "pendente");
-        // 2. Agrupar por mesa
         const grouped = new Map();
         pedidosPendentes.forEach(pedido => {
-            if (!grouped.has(pedido.table)) {
+            if (!grouped.has(pedido.table))
                 grouped.set(pedido.table, []);
-            }
             grouped.get(pedido.table).push(pedido);
         });
-        // 3. Renderizar somente mesas que ainda têm pedidos pendentes
         grouped.forEach((items, mesa) => {
             const liMesa = document.createElement('li');
             liMesa.classList.add('pedido-mesa-container');
@@ -30,14 +30,14 @@ async function carregarCozinha() {
                 liItem.dataset.orderId = itemOrder.id.toString();
                 const itemDetails = document.createElement('div');
                 itemDetails.classList.add('item-details');
+                // 👇 inclui o tipo ao lado do prato
                 itemDetails.innerHTML = `
-                    <span><strong>Prato: </strong>${itemOrder.item}</span>
-                    ${itemOrder.note ? `<em><strong>Obs:</strong></em> ${itemOrder.note}` : ""}
-                `;
+          <span><strong>Prato:</strong> ${itemOrder.item} <span class="badge-tipo">${fmtTipo(itemOrder.type)}</span></span>
+          ${itemOrder.note ? `<br><em><strong>Obs:</strong></em> ${itemOrder.note}` : ""}
+        `;
                 liItem.appendChild(itemDetails);
                 ulItens.appendChild(liItem);
             });
-            // Botão para marcar TODOS como prontos
             const mainProntoButton = document.createElement('button');
             mainProntoButton.textContent = `Pronto`;
             mainProntoButton.classList.add('main-pronto-button');
@@ -46,23 +46,18 @@ async function carregarCozinha() {
                 mainProntoButton.disabled = true;
                 mainProntoButton.textContent = "Enviando...";
                 try {
-                    const updatePromises = items.map(async (itemOrder) => {
-                        const res = await fetch(`${API}/${itemOrder.id}`, {
-                            method: "PUT",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({ status: "pronto" }),
-                        });
-                        if (!res.ok)
-                            throw new Error(`Falha ao marcar item ${itemOrder.id}`);
-                    });
-                    await Promise.all(updatePromises);
+                    await Promise.all(items.map((itemOrder) => fetch(`${API}/${itemOrder.id}`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ status: "pronto" }),
+                    }).then(r => { if (!r.ok)
+                        throw new Error(); })));
                     carregarCozinha();
                 }
-                catch (error) {
-                    console.error("Erro ao finalizar pedido da mesa:", error);
+                catch (_a) {
                     alert("Erro ao finalizar pedido. Tente novamente.");
                     mainProntoButton.disabled = false;
-                    mainProntoButton.textContent = `Marcar Pedido da Mesa ${mesa} como Pronto`;
+                    mainProntoButton.textContent = `Pronto`;
                 }
             };
             liMesa.appendChild(mainProntoButton);
