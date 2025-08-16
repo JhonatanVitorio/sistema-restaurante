@@ -53,7 +53,7 @@ const drinks = [
     "Stella 600",
     "Itaipava 600",
     "Amstel 600",
-    "Petra 600", 
+    "Petra 600",
     "Antartica 600",
     "imperio 600",
     "Skol Litrao",
@@ -118,8 +118,13 @@ window.addEventListener("DOMContentLoaded", () => {
         comercialOption.value = "comercial";
         comercialOption.textContent = "Comercial";
 
+        const marmitexOption = document.createElement("option");
+        marmitexOption.value = "marmitex";
+        marmitexOption.textContent = "Marmitex";
+
         typeSelect.appendChild(pfOption);
         typeSelect.appendChild(comercialOption);
+        typeSelect.appendChild(marmitexOption);
 
         // Campo de observação individual do prato
         const textarea = document.createElement("textarea");

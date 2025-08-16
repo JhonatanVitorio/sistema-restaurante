@@ -107,8 +107,12 @@ window.addEventListener("DOMContentLoaded", () => {
         const comercialOption = document.createElement("option");
         comercialOption.value = "comercial";
         comercialOption.textContent = "Comercial";
+        const marmitexOption = document.createElement("option");
+        marmitexOption.value = "marmitex";
+        marmitexOption.textContent = "Marmitex";
         typeSelect.appendChild(pfOption);
         typeSelect.appendChild(comercialOption);
+        typeSelect.appendChild(marmitexOption);
         // Campo de observação individual do prato
         const textarea = document.createElement("textarea");
         textarea.placeholder = "Observação para este prato (ex: sem cebola)";
