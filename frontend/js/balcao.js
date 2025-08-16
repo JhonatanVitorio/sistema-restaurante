@@ -1,4 +1,4 @@
-const API = "http://localhost:3000/api/orders";
+const API = "/api/orders";
 // Preços dos pratos
 const precosPratos = {
     "Virado Paulista": 25,

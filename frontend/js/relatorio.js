@@ -1,6 +1,6 @@
 "use strict";
 // frontend/ts/relatorio.ts
-const API_BASE = "http://localhost:3000";
+const API_BASE = "";
 let pratosChartInstance = null;
 let bebidasChartInstance = null;
 const el = {

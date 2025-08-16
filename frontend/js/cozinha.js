@@ -1,4 +1,4 @@
-const API = "http://localhost:3000/api/orders";
+const API = "/api/orders";
 const lista = document.getElementById('cozinha-pedidos');
 async function carregarCozinha() {
     try {
