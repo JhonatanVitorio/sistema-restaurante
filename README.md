@@ -6,8 +6,7 @@ Sistema web completo para gerenciamento de pedidos, com telas separadas para **G
 **Frontend:** React, TypeScript, TailwindCSS  
 **Backend:** Node.js, Express  
 **Banco de Dados:** PostgreSQL  
-**ORM:** Prisma  
-**Deploy / Ambiente:** (coloque caso tenha: Railway, Render, etc)
+**ORM:** Prisma
 
 ## 💡 Funcionalidades
 - ✅ Garçom cadastra pedidos rapidamente
@@ -18,3 +17,27 @@ Sistema web completo para gerenciamento de pedidos, com telas separadas para **G
 - 🔐 Arquitetura MVC, código limpo e escalável
 
 ## 🧱 Arquitetura
+/backend
+/src
+/controllers
+/services
+/routes
+/prisma
+/frontend
+/src
+/pages
+/components
+
+## 🛠️ Como rodar o projeto
+
+### Backend
+```bash
+cd backend
+npm install
+npx prisma migrate dev
+npm run dev
+
+cd frontend
+npm install
+npm run dev
+
